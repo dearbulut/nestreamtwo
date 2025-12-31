@@ -1,6 +1,7 @@
 // Series Page - Matching NeoStream Desktop Style
 
 import { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { api } from '../services/api';
 import type { Series as SeriesType, Category } from '../types';
 import { useTVNavigation } from '../hooks/useTVNavigation';
@@ -11,6 +12,7 @@ import { VideoPlayer } from '../components/VideoPlayer';
 import './Series.css';
 
 export function Series() {
+    const { t } = useTranslation();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [series, setSeries] = useState<SeriesType[]>([]);
@@ -69,7 +71,7 @@ export function Series() {
                 setSeries(seriesData);
                 setCategories(categoriesData);
             } catch (err: any) {
-                setError(err?.message || 'Erro ao carregar séries');
+                setError(err?.message || t('series.errorLoading'));
             } finally {
                 setLoading(false);
             }
@@ -202,10 +204,10 @@ export function Series() {
                 <div className="error-glow" />
                 <div className="error-content">
                     <div className="error-icon">📺</div>
-                    <h2>Erro ao carregar séries</h2>
+                    <h2>{t('series.errorLoading')}</h2>
                     <p>{error}</p>
                     <button onClick={() => window.location.reload()} className="retry-button">
-                        🔄 Tentar novamente
+                        🔄 {t('common.retry')}
                     </button>
                 </div>
             </div>
@@ -227,7 +229,7 @@ export function Series() {
             <AnimatedSearchBar
                 value={searchQuery}
                 onChange={setSearchQuery}
-                placeholder="Buscar séries..."
+                placeholder={t('series.searchPlaceholder')}
             />
 
             {/* Category Menu (Hamburger Button) */}
@@ -303,8 +305,8 @@ export function Series() {
                 {filteredSeries.length === 0 ? (
                     <div className="no-results">
                         <div className="no-results-icon">📺</div>
-                        <p>Nenhuma série encontrada</p>
-                        <span>Tente buscar por outro termo</span>
+                        <p>{t('series.noSeries')}</p>
+                        <span>{t('common.tryAgain')}</span>
                     </div>
                 ) : (
                     <div className="series-grid">
@@ -342,9 +344,9 @@ export function Series() {
 
             {/* Footer Hints */}
             <div className="series-hints">
-                <span>↑↓←→ Navegar</span>
-                <span>OK Selecionar</span>
-                <span>← Voltar</span>
+                <span>↑↓←→ {t('liveTV.hints.navigate')}</span>
+                <span>OK {t('liveTV.hints.select')}</span>
+                <span>← {t('liveTV.hints.back')}</span>
             </div>
         </div>
     );

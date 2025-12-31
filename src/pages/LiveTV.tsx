@@ -1,14 +1,17 @@
 // LiveTV Page - Matching NeoStream Desktop Style
 
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { api } from '../services/api';
 import type { LiveStream, Category } from '../types';
 import { useTVNavigation } from '../hooks/useTVNavigation';
 import { CategoryMenu } from '../components/CategoryMenu';
 import { AnimatedSearchBar } from '../components/AnimatedSearchBar';
+import { VideoPlayer } from '../components/VideoPlayer';
 import './LiveTV.css';
 
 export function LiveTV() {
+    const { t } = useTranslation();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [streams, setStreams] = useState<LiveStream[]>([]);
@@ -17,6 +20,8 @@ export function LiveTV() {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedChannel, setSelectedChannel] = useState<LiveStream | null>(null);
     const [brokenImages, setBrokenImages] = useState<Set<number>>(new Set());
+    const [showPlayer, setShowPlayer] = useState(false);
+    const [playingChannel, setPlayingChannel] = useState<LiveStream | null>(null);
 
     // Focus states for TV navigation
     const [focusArea, setFocusArea] = useState<'categories' | 'search' | 'channels'>('channels');
@@ -105,6 +110,13 @@ export function LiveTV() {
         setBrokenImages(prev => new Set(prev).add(streamId));
     };
 
+    // Handle play channel
+    const handlePlayChannel = (channel: LiveStream) => {
+        setPlayingChannel(channel);
+        setShowPlayer(true);
+        setSelectedChannel(null);
+    };
+
     // Loading State with Animation
     if (loading) {
         return (
@@ -120,7 +132,7 @@ export function LiveTV() {
                 </div>
 
                 <div className="loading-text">
-                    <span>Carregando canais</span>
+                    <span>{t('liveTV.loadingChannels')}</span>
                     <div className="loading-dots">
                         {[0, 1, 2].map(i => (
                             <span key={i} className="loading-dot" style={{ animationDelay: `${i * 0.2}s` }} />
@@ -148,10 +160,10 @@ export function LiveTV() {
         return (
             <div className="livetv-error-container">
                 <div className="error-icon">📡</div>
-                <h2>Erro ao carregar canais</h2>
+                <h2>{t('liveTV.errorLoading')}</h2>
                 <p>{error}</p>
                 <button onClick={() => window.location.reload()} className="retry-button">
-                    🔄 Tentar novamente
+                    🔄 {t('common.retry')}
                 </button>
             </div>
         );
@@ -163,11 +175,26 @@ export function LiveTV() {
             <div className="livetv-bg-gradient" />
             <div className="livetv-bg-glow" />
 
+            {/* Video Player */}
+            {showPlayer && playingChannel && (
+                <VideoPlayer
+                    src={api.getLiveStreamUrl(playingChannel.stream_id)}
+                    title={playingChannel.name}
+                    poster={playingChannel.stream_icon}
+                    isLive={true}
+                    autoPlay={true}
+                    onClose={() => {
+                        setShowPlayer(false);
+                        setPlayingChannel(null);
+                    }}
+                />
+            )}
+
             {/* Animated Search Bar */}
             <AnimatedSearchBar
                 value={searchQuery}
                 onChange={setSearchQuery}
-                placeholder="Buscar canais..."
+                placeholder={t('liveTV.searchPlaceholder')}
             />
 
             {/* Category Menu (Hamburger Button) */}
@@ -200,15 +227,15 @@ export function LiveTV() {
                             </div>
                             <div className="live-badge">
                                 <span className="live-dot" />
-                                AO VIVO
+                                {t('liveTV.live')}
                             </div>
                         </div>
                         <div className="preview-actions">
-                            <button className="play-button">
-                                ▶ Assistir
+                            <button className="play-button" onClick={() => handlePlayChannel(selectedChannel)}>
+                                ▶ {t('liveTV.watch')}
                             </button>
                             <button className="info-button">
-                                ℹ Informações
+                                ℹ {t('liveTV.info')}
                             </button>
                         </div>
                     </div>
@@ -220,8 +247,8 @@ export function LiveTV() {
                 {filteredStreams.length === 0 ? (
                     <div className="no-results">
                         <div className="no-results-icon">📺</div>
-                        <p>Nenhum canal encontrado</p>
-                        <span>Tente buscar por outro termo</span>
+                        <p>{t('liveTV.noChannels')}</p>
+                        <span>{t('common.tryAgain')}</span>
                     </div>
                 ) : (
                     <div className="channels-grid">
@@ -230,6 +257,7 @@ export function LiveTV() {
                                 key={stream.stream_id}
                                 className={`channel-card ${focusArea === 'channels' && focusedChannelIndex === index ? 'tv-focused' : ''} ${selectedChannel?.stream_id === stream.stream_id ? 'selected' : ''}`}
                                 onClick={() => setSelectedChannel(stream)}
+                                onDoubleClick={() => handlePlayChannel(stream)}
                                 style={{ animationDelay: `${Math.min(index * 0.03, 0.5)}s` }}
                             >
                                 <div className="channel-logo">
@@ -255,9 +283,9 @@ export function LiveTV() {
 
             {/* Footer Hints */}
             <div className="livetv-hints">
-                <span>↑↓←→ Navegar</span>
-                <span>OK Selecionar</span>
-                <span>← Voltar</span>
+                <span>↑↓←→ {t('liveTV.hints.navigate')}</span>
+                <span>OK {t('liveTV.hints.select')}</span>
+                <span>← {t('liveTV.hints.back')}</span>
             </div>
         </div>
     );

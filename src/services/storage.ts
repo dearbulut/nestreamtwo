@@ -30,16 +30,20 @@ const STORAGE_KEYS = {
     SETTINGS: 'neostream_settings',
 };
 
-interface Settings {
-    language: 'pt' | 'en' | 'es';
+export interface Settings {
+    language: 'tr' | 'en';
     autoPlay: boolean;
     preferredQuality: 'auto' | '1080p' | '720p' | '480p';
+    compactMode: boolean;
+    theme: 'dark' | 'light';
 }
 
 const DEFAULT_SETTINGS: Settings = {
-    language: 'pt',
+    language: 'tr', // Default to Turkish
     autoPlay: true,
     preferredQuality: 'auto',
+    compactMode: false,
+    theme: 'dark',
 };
 
 class StorageService {

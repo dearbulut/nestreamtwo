@@ -1,6 +1,7 @@
 // VideoPlayer Component - Premium player with HLS support
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { FaPlay, FaPause, FaVolumeUp, FaVolumeDown, FaVolumeOff, FaVolumeMute, FaExpand, FaCompress, FaStepForward, FaStepBackward, FaTimes } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
+import { FaPlay, FaPause, FaVolumeUp, FaVolumeDown, FaVolumeOff, FaVolumeMute, FaExpand, FaCompress, FaStepForward, FaStepBackward, FaTimes, FaRedo } from 'react-icons/fa';
 import { useHls } from '../../hooks/useHls';
 import './VideoPlayer.css';
 
@@ -21,10 +22,13 @@ export function VideoPlayer({
     isLive = false,
     autoPlay = false
 }: VideoPlayerProps) {
+    const { t } = useTranslation();
     const videoRef = useRef<HTMLVideoElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const progressRef = useRef<HTMLDivElement>(null);
     const hideControlsTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+    const retryCountRef = useRef(0);
+    const maxRetries = 3;
 
     // Video state
     const [playing, setPlaying] = useState(false);
@@ -35,18 +39,50 @@ export function VideoPlayer({
     const [muted, setMuted] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [retrying, setRetrying] = useState(false);
     const [showControls, setShowControls] = useState(true);
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [hoverTime, setHoverTime] = useState<number | null>(null);
     const [hoverPosition, setHoverPosition] = useState(0);
     const [showVolumeSlider, setShowVolumeSlider] = useState(false);
 
+    // Handle stream error with retry
+    const handleStreamError = useCallback(() => {
+        if (retryCountRef.current < maxRetries) {
+            retryCountRef.current++;
+            setRetrying(true);
+            setError(null);
+            
+            // Wait and retry
+            setTimeout(() => {
+                setRetrying(false);
+                // Force reload by resetting the video
+                if (videoRef.current) {
+                    videoRef.current.load();
+                }
+            }, 2000);
+        } else {
+            setError(t('player.streamUnavailable'));
+            setRetrying(false);
+        }
+    }, [t]);
+
+    // Manual retry
+    const handleRetry = useCallback(() => {
+        retryCountRef.current = 0;
+        setError(null);
+        setLoading(true);
+        if (videoRef.current) {
+            videoRef.current.load();
+        }
+    }, []);
+
     // HLS hook - pass autoPlay
     const { cleanup } = useHls({
         src,
         videoRef,
         autoPlay,
-        onError: () => setError('Erro ao carregar stream')
+        onError: handleStreamError
     });
 
     // Cleanup on unmount
@@ -90,9 +126,12 @@ export function VideoPlayer({
             }
         };
         const handleWaiting = () => setLoading(true);
-        const handlePlaying = () => setLoading(false);
+        const handlePlaying = () => {
+            setLoading(false);
+            retryCountRef.current = 0; // Reset retry count on successful play
+        };
         const handleCanPlay = () => setLoading(false);
-        const handleError = () => setError('Erro ao reproduzir vídeo');
+        const handleError = () => handleStreamError();
 
         video.addEventListener('play', handlePlay);
         video.addEventListener('pause', handlePause);
@@ -115,7 +154,7 @@ export function VideoPlayer({
             video.removeEventListener('canplay', handleCanPlay);
             video.removeEventListener('error', handleError);
         };
-    }, []);
+    }, [handleStreamError]);
 
     // Fullscreen change handler
     useEffect(() => {
@@ -319,14 +358,16 @@ export function VideoPlayer({
             )}
 
             {/* Loading Spinner */}
-            {loading && (
+            {(loading || retrying) && (
                 <div className="video-player-loading">
                     <div className="modern-spinner">
                         <div className="spinner-ring"></div>
                         <div className="spinner-ring"></div>
                         <div className="spinner-ring"></div>
                     </div>
-                    <span className="loading-text">Carregando...</span>
+                    <span className="loading-text">
+                        {retrying ? t('player.retrying') : t('player.loading')}
+                    </span>
                 </div>
             )}
 
@@ -334,7 +375,16 @@ export function VideoPlayer({
             {error && (
                 <div className="video-player-error">
                     <p>⚠️ {error}</p>
-                    {onClose && <button onClick={handleClose}>Fechar</button>}
+                    <div className="error-actions">
+                        <button className="retry-btn" onClick={handleRetry}>
+                            <FaRedo /> {t('player.retry')}
+                        </button>
+                        {onClose && (
+                            <button className="close-btn" onClick={handleClose}>
+                                {t('common.close')}
+                            </button>
+                        )}
+                    </div>
                 </div>
             )}
 
@@ -383,7 +433,7 @@ export function VideoPlayer({
                             <button
                                 className="control-btn skip-btn"
                                 onClick={() => seek(Math.max(0, currentTime - 10))}
-                                title="Voltar 10s"
+                                title={t('player.skipBack')}
                             >
                                 <FaStepBackward />
                                 <span className="skip-label">10</span>
@@ -391,7 +441,11 @@ export function VideoPlayer({
                         )}
 
                         {/* Play/Pause */}
-                        <button className="control-btn play-btn" onClick={togglePlay}>
+                        <button 
+                            className="control-btn play-btn" 
+                            onClick={togglePlay}
+                            title={playing ? t('player.pause') : t('player.play')}
+                        >
                             {playing ? <FaPause /> : <FaPlay />}
                         </button>
 
@@ -400,7 +454,7 @@ export function VideoPlayer({
                             <button
                                 className="control-btn skip-btn"
                                 onClick={() => seek(Math.min(duration, currentTime + 10))}
-                                title="Avançar 10s"
+                                title={t('player.skipForward')}
                             >
                                 <FaStepForward />
                                 <span className="skip-label">10</span>

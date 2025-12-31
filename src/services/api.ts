@@ -63,11 +63,11 @@ class XtreamAPI {
         const data: AuthResponse = await response.json();
 
         if (data.user_info && data.user_info.auth === 0) {
-            throw new Error('Usuário ou senha incorretos');
+            throw new Error('Invalid credentials');
         }
 
         if (!data.user_info) {
-            throw new Error('Resposta inválida do servidor');
+            throw new Error('Invalid server response');
         }
 
         // Save credentials

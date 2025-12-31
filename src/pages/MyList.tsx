@@ -1,6 +1,7 @@
 // MyList Page - Watch Later List - Matching NeoStream Desktop Style
 
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { storage } from '../services/storage';
 import { useTVNavigation } from '../hooks/useTVNavigation';
 import './MyList.css';
@@ -16,6 +17,7 @@ interface WatchLaterItem {
 }
 
 export function MyList() {
+    const { t } = useTranslation();
     const [items, setItems] = useState<WatchLaterItem[]>([]);
     const [activeTab, setActiveTab] = useState<'all' | 'movies' | 'series'>('all');
     const [removingId, setRemovingId] = useState<string | null>(null);
@@ -108,19 +110,16 @@ export function MyList() {
                         <div className="empty-icon">📑</div>
                         <div className="empty-icon-glow" />
                     </div>
-                    <h2 className="empty-title">Sua lista está vazia</h2>
-                    <p className="empty-text">
-                        Adicione filmes e séries para assistir depois clicando em
-                        <strong> "+ Minha Lista"</strong> no modal de detalhes.
-                    </p>
+                    <h2 className="empty-title">{t('myList.empty')}</h2>
+                    <p className="empty-text">{t('myList.emptyHint')}</p>
                     <div className="empty-suggestions">
                         <button className="suggestion-btn">
                             <span>🎬</span>
-                            <span>Explorar Filmes</span>
+                            <span>{t('nav.movies')}</span>
                         </button>
                         <button className="suggestion-btn">
                             <span>📺</span>
-                            <span>Explorar Séries</span>
+                            <span>{t('nav.series')}</span>
                         </button>
                     </div>
                 </div>
@@ -137,14 +136,14 @@ export function MyList() {
                 <div className="header-title">
                     <div className="title-icon">📑</div>
                     <div>
-                        <h1>Minha Lista</h1>
-                        <p className="subtitle">{items.length} itens para assistir</p>
+                        <h1>{t('myList.title')}</h1>
+                        <p className="subtitle">{items.length} items</p>
                     </div>
                 </div>
                 {items.length > 0 && (
                     <button className="clear-btn" onClick={clearAll}>
                         <span>🗑️</span>
-                        <span>Limpar Tudo</span>
+                        <span>{t('settings.data.clearList')}</span>
                     </button>
                 )}
             </header>
@@ -155,21 +154,21 @@ export function MyList() {
                     className={`tab ${activeTab === 'all' ? 'active' : ''} ${focusArea === 'tabs' && focusedTabIndex === 0 ? 'tv-focused' : ''}`}
                     onClick={() => setActiveTab('all')}
                 >
-                    <span>Todos</span>
+                    <span>{t('common.all')}</span>
                     <span className="tab-count">{items.length}</span>
                 </button>
                 <button
                     className={`tab ${activeTab === 'movies' ? 'active' : ''} ${focusArea === 'tabs' && focusedTabIndex === 1 ? 'tv-focused' : ''}`}
                     onClick={() => setActiveTab('movies')}
                 >
-                    <span>🎬 Filmes</span>
+                    <span>🎬 {t('nav.movies')}</span>
                     <span className="tab-count">{movies.length}</span>
                 </button>
                 <button
                     className={`tab ${activeTab === 'series' ? 'active' : ''} ${focusArea === 'tabs' && focusedTabIndex === 2 ? 'tv-focused' : ''}`}
                     onClick={() => setActiveTab('series')}
                 >
-                    <span>📺 Séries</span>
+                    <span>📺 {t('nav.series')}</span>
                     <span className="tab-count">{series.length}</span>
                 </button>
             </div>
@@ -221,9 +220,9 @@ export function MyList() {
 
             {/* Footer Hints */}
             <div className="mylist-hints">
-                <span>↑↓←→ Navegar</span>
-                <span>OK Selecionar</span>
-                <span>← Voltar</span>
+                <span>↑↓←→ {t('liveTV.hints.navigate')}</span>
+                <span>OK {t('liveTV.hints.select')}</span>
+                <span>← {t('liveTV.hints.back')}</span>
             </div>
         </div>
     );

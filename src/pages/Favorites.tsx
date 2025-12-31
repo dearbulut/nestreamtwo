@@ -1,6 +1,7 @@
 // Favorites Page - Matching NeoStream Desktop Style
 
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { storage } from '../services/storage';
 import { useTVNavigation } from '../hooks/useTVNavigation';
 import './Favorites.css';
@@ -16,6 +17,7 @@ interface FavoriteItem {
 }
 
 export function Favorites() {
+    const { t } = useTranslation();
     const [items, setItems] = useState<FavoriteItem[]>([]);
     const [activeTab, setActiveTab] = useState<'all' | 'movies' | 'series' | 'channels'>('all');
     const [removingId, setRemovingId] = useState<string | null>(null);
@@ -110,19 +112,16 @@ export function Favorites() {
                         <div className="empty-icon">❤️</div>
                         <div className="empty-icon-glow" />
                     </div>
-                    <h2 className="empty-title">Nenhum favorito ainda</h2>
-                    <p className="empty-text">
-                        Seus filmes, séries e canais favoritos aparecerão aqui.
-                        Clique no <strong>❤️ coração</strong> em qualquer conteúdo para adicionar aos favoritos.
-                    </p>
+                    <h2 className="empty-title">{t('favorites.empty')}</h2>
+                    <p className="empty-text">{t('favorites.emptyHint')}</p>
                     <div className="empty-suggestions">
                         <button className="suggestion-btn">
                             <span>🎬</span>
-                            <span>Explorar Filmes</span>
+                            <span>{t('nav.movies')}</span>
                         </button>
                         <button className="suggestion-btn">
                             <span>📺</span>
-                            <span>Explorar Séries</span>
+                            <span>{t('nav.series')}</span>
                         </button>
                     </div>
                 </div>
@@ -139,14 +138,14 @@ export function Favorites() {
                 <div className="header-title">
                     <div className="title-icon">❤️</div>
                     <div>
-                        <h1>Meus Favoritos</h1>
-                        <p className="subtitle">{items.length} itens salvos</p>
+                        <h1>{t('favorites.title')}</h1>
+                        <p className="subtitle">{items.length} items</p>
                     </div>
                 </div>
                 {items.length > 0 && (
                     <button className="clear-btn" onClick={clearAll}>
                         <span>🗑️</span>
-                        <span>Limpar Tudo</span>
+                        <span>{t('settings.data.clearFavorites')}</span>
                     </button>
                 )}
             </header>
@@ -157,28 +156,28 @@ export function Favorites() {
                     className={`tab ${activeTab === 'all' ? 'active' : ''} ${focusArea === 'tabs' && focusedTabIndex === 0 ? 'tv-focused' : ''}`}
                     onClick={() => setActiveTab('all')}
                 >
-                    <span>Todos</span>
+                    <span>{t('common.all')}</span>
                     <span className="tab-count">{items.length}</span>
                 </button>
                 <button
                     className={`tab ${activeTab === 'movies' ? 'active' : ''} ${focusArea === 'tabs' && focusedTabIndex === 1 ? 'tv-focused' : ''}`}
                     onClick={() => setActiveTab('movies')}
                 >
-                    <span>🎬 Filmes</span>
+                    <span>🎬 {t('nav.movies')}</span>
                     <span className="tab-count">{movies.length}</span>
                 </button>
                 <button
                     className={`tab ${activeTab === 'series' ? 'active' : ''} ${focusArea === 'tabs' && focusedTabIndex === 2 ? 'tv-focused' : ''}`}
                     onClick={() => setActiveTab('series')}
                 >
-                    <span>📺 Séries</span>
+                    <span>📺 {t('nav.series')}</span>
                     <span className="tab-count">{series.length}</span>
                 </button>
                 <button
                     className={`tab ${activeTab === 'channels' ? 'active' : ''} ${focusArea === 'tabs' && focusedTabIndex === 3 ? 'tv-focused' : ''}`}
                     onClick={() => setActiveTab('channels')}
                 >
-                    <span>📡 Canais</span>
+                    <span>📡 {t('nav.liveTV')}</span>
                     <span className="tab-count">{channels.length}</span>
                 </button>
             </div>
@@ -227,9 +226,9 @@ export function Favorites() {
 
             {/* Footer Hints */}
             <div className="favorites-hints">
-                <span>↑↓←→ Navegar</span>
-                <span>OK Selecionar</span>
-                <span>← Voltar</span>
+                <span>↑↓←→ {t('liveTV.hints.navigate')}</span>
+                <span>OK {t('liveTV.hints.select')}</span>
+                <span>← {t('liveTV.hints.back')}</span>
             </div>
         </div>
     );
