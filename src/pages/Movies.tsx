@@ -1,6 +1,7 @@
 // Movies Page - Matching NeoStream Desktop Style
 
 import { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { api } from '../services/api';
 import type { VODStream, Category } from '../types';
 import { useTVNavigation } from '../hooks/useTVNavigation';
@@ -11,6 +12,7 @@ import { VideoPlayer } from '../components/VideoPlayer';
 import './Movies.css';
 
 export function Movies() {
+    const { t } = useTranslation();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [streams, setStreams] = useState<VODStream[]>([]);
@@ -69,7 +71,7 @@ export function Movies() {
                 setStreams(streamsData);
                 setCategories(categoriesData);
             } catch (err: any) {
-                setError(err?.message || 'Erro ao carregar filmes');
+                setError(err?.message || t('movies.errorLoading'));
             } finally {
                 setLoading(false);
             }
@@ -202,10 +204,10 @@ export function Movies() {
                 <div className="error-glow" />
                 <div className="error-content">
                     <div className="error-icon">🎬</div>
-                    <h2>Erro ao carregar filmes</h2>
+                    <h2>{t('movies.errorLoading')}</h2>
                     <p>{error}</p>
                     <button onClick={() => window.location.reload()} className="retry-button">
-                        🔄 Tentar novamente
+                        🔄 {t('common.retry')}
                     </button>
                 </div>
             </div>
@@ -227,7 +229,7 @@ export function Movies() {
             <AnimatedSearchBar
                 value={searchQuery}
                 onChange={setSearchQuery}
-                placeholder="Buscar filmes..."
+                placeholder={t('movies.searchPlaceholder')}
             />
 
             {/* Category Menu (Hamburger Button) */}
@@ -286,8 +288,8 @@ export function Movies() {
                 {filteredStreams.length === 0 ? (
                     <div className="no-results">
                         <div className="no-results-icon">🎬</div>
-                        <p>Nenhum filme encontrado</p>
-                        <span>Tente buscar por outro termo</span>
+                        <p>{t('movies.noMovies')}</p>
+                        <span>{t('common.tryAgain')}</span>
                     </div>
                 ) : (
                     <div className="movies-grid">
@@ -325,9 +327,9 @@ export function Movies() {
 
             {/* Footer Hints */}
             <div className="movies-hints">
-                <span>↑↓←→ Navegar</span>
-                <span>OK Selecionar</span>
-                <span>← Voltar</span>
+                <span>↑↓←→ {t('liveTV.hints.navigate')}</span>
+                <span>OK {t('liveTV.hints.select')}</span>
+                <span>← {t('liveTV.hints.back')}</span>
             </div>
         </div>
     );

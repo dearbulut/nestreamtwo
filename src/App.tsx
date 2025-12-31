@@ -1,6 +1,7 @@
 // Main App Component - NeoStream TV
 
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { api } from './services/api';
 import { storage } from './services/storage';
 import { Login } from './pages/Login';
@@ -10,12 +11,14 @@ import { Movies } from './pages/Movies';
 import { Series } from './pages/Series';
 import { Favorites } from './pages/Favorites';
 import { MyList } from './pages/MyList';
+import { Settings } from './pages/Settings';
 import { Sidebar } from './components/Sidebar';
 import './index.css';
 
 type Page = 'home' | 'live' | 'movies' | 'series' | 'mylist' | 'favorites' | 'settings';
 
 function App() {
+  const { t } = useTranslation();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -91,19 +94,8 @@ function App() {
         {currentPage === 'series' && <Series />}
         {currentPage === 'mylist' && <MyList />}
         {currentPage === 'favorites' && <Favorites />}
-        {currentPage === 'settings' && <PlaceholderPage title="Configurações" icon="⚙️" />}
+        {currentPage === 'settings' && <Settings />}
       </main>
-    </div>
-  );
-}
-
-// Placeholder component for pages not yet implemented
-function PlaceholderPage({ title, icon }: { title: string; icon: string }) {
-  return (
-    <div className="placeholder-page">
-      <span className="placeholder-icon">{icon}</span>
-      <h1 className="placeholder-title">{title}</h1>
-      <p className="placeholder-text">Em desenvolvimento...</p>
     </div>
   );
 }

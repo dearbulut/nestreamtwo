@@ -1,6 +1,7 @@
 // Login Page - TV Style with virtual keyboard navigation
 
 import { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { api } from '../services/api';
 import { storage } from '../services/storage';
 import { useTVNavigation } from '../hooks/useTVNavigation';
@@ -11,6 +12,7 @@ interface LoginProps {
 }
 
 export function Login({ onLoginSuccess }: LoginProps) {
+    const { t } = useTranslation();
     const [url, setUrl] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -32,7 +34,7 @@ export function Login({ onLoginSuccess }: LoginProps) {
 
     const handleLogin = async () => {
         if (!url || !username || !password) {
-            setError('Preencha todos os campos');
+            setError(t('login.invalidCredentials'));
             return;
         }
 
@@ -47,7 +49,7 @@ export function Login({ onLoginSuccess }: LoginProps) {
 
             onLoginSuccess();
         } catch (err: any) {
-            setError(err.message || 'Erro ao conectar');
+            setError(err.message || t('login.connectionError'));
         } finally {
             setLoading(false);
         }
@@ -93,18 +95,18 @@ export function Login({ onLoginSuccess }: LoginProps) {
                         </svg>
                     </div>
                     <h1 className="login-title">NeoStream</h1>
-                    <p className="login-subtitle">Entre com suas credenciais IPTV</p>
+                    <p className="login-subtitle">{t('login.subtitle')}</p>
                 </div>
 
                 {/* Login Form */}
                 <form className="login-form" onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
                     <div className="login-field">
-                        <label className="login-label">Servidor</label>
+                        <label className="login-label">{t('login.serverUrl')}</label>
                         <input
                             ref={(el) => { inputs.current[0] = el; }}
                             type="text"
                             className={`tv-input ${focusedField === 0 ? 'tv-focused' : ''}`}
-                            placeholder="http://servidor.com:8080"
+                            placeholder={t('login.serverUrlPlaceholder')}
                             value={url}
                             onChange={(e) => setUrl(e.target.value)}
                             onFocus={() => setFocusedField(0)}
@@ -113,12 +115,12 @@ export function Login({ onLoginSuccess }: LoginProps) {
                     </div>
 
                     <div className="login-field">
-                        <label className="login-label">Usuário</label>
+                        <label className="login-label">{t('login.username')}</label>
                         <input
                             ref={(el) => { inputs.current[1] = el; }}
                             type="text"
                             className={`tv-input ${focusedField === 1 ? 'tv-focused' : ''}`}
-                            placeholder="seu_usuario"
+                            placeholder={t('login.usernamePlaceholder')}
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             onFocus={() => setFocusedField(1)}
@@ -127,12 +129,12 @@ export function Login({ onLoginSuccess }: LoginProps) {
                     </div>
 
                     <div className="login-field">
-                        <label className="login-label">Senha</label>
+                        <label className="login-label">{t('login.password')}</label>
                         <input
                             ref={(el) => { inputs.current[2] = el; }}
                             type="password"
                             className={`tv-input ${focusedField === 2 ? 'tv-focused' : ''}`}
-                            placeholder="••••••••"
+                            placeholder={t('login.passwordPlaceholder')}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             onFocus={() => setFocusedField(2)}
@@ -160,7 +162,7 @@ export function Login({ onLoginSuccess }: LoginProps) {
                         {loading ? (
                             <>
                                 <span className="login-spinner" />
-                                Conectando...
+                                {t('login.loggingIn')}
                             </>
                         ) : (
                             <>
@@ -169,7 +171,7 @@ export function Login({ onLoginSuccess }: LoginProps) {
                                     <path d="M10 17L15 12L10 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                     <path d="M15 12H3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                                 </svg>
-                                Entrar
+                                {t('login.loginButton')}
                             </>
                         )}
                     </button>
@@ -177,9 +179,9 @@ export function Login({ onLoginSuccess }: LoginProps) {
 
                 {/* Navigation hint */}
                 <div className="login-hint">
-                    <span>Use as setas ↑↓ para navegar</span>
+                    <span>↑↓ {t('liveTV.hints.navigate')}</span>
                     <span>•</span>
-                    <span>OK para confirmar</span>
+                    <span>OK {t('liveTV.hints.select')}</span>
                 </div>
             </div>
         </div>

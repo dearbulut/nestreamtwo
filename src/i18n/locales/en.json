@@ -1,0 +1,163 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry",
+    "close": "Close",
+    "save": "Save",
+    "cancel": "Cancel",
+    "back": "Back",
+    "search": "Search",
+    "all": "All",
+    "noResults": "No results found",
+    "tryAgain": "Try a different search term"
+  },
+  "nav": {
+    "home": "Home",
+    "liveTV": "Live TV",
+    "movies": "Movies",
+    "series": "Series",
+    "myList": "My List",
+    "favorites": "Favorites",
+    "settings": "Settings",
+    "profile": "Profile",
+    "logout": "Logout"
+  },
+  "login": {
+    "title": "Welcome to NeoStream",
+    "subtitle": "Sign in with your IPTV account",
+    "serverUrl": "Server URL",
+    "serverUrlPlaceholder": "http://example.com:8080",
+    "username": "Username",
+    "usernamePlaceholder": "Enter your username",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "loginButton": "Sign In",
+    "loggingIn": "Signing in...",
+    "invalidCredentials": "Invalid username or password",
+    "invalidResponse": "Invalid server response",
+    "connectionError": "Connection error"
+  },
+  "home": {
+    "welcome": "Welcome",
+    "continueWatching": "Continue Watching",
+    "recentlyAdded": "Recently Added",
+    "popular": "Popular",
+    "recommended": "Recommended"
+  },
+  "liveTV": {
+    "title": "Live TV",
+    "searchPlaceholder": "Search channels...",
+    "loadingChannels": "Loading channels",
+    "errorLoading": "Error loading channels",
+    "noChannels": "No channels found",
+    "live": "LIVE",
+    "watch": "Watch",
+    "info": "Info",
+    "hints": {
+      "navigate": "Navigate",
+      "select": "Select",
+      "back": "Back"
+    }
+  },
+  "movies": {
+    "title": "Movies",
+    "searchPlaceholder": "Search movies...",
+    "loadingMovies": "Loading movies",
+    "errorLoading": "Error loading movies",
+    "noMovies": "No movies found"
+  },
+  "series": {
+    "title": "Series",
+    "searchPlaceholder": "Search series...",
+    "loadingSeries": "Loading series",
+    "errorLoading": "Error loading series",
+    "noSeries": "No series found",
+    "season": "Season",
+    "episode": "Episode",
+    "episodes": "Episodes"
+  },
+  "favorites": {
+    "title": "Favorites",
+    "empty": "No favorites yet",
+    "emptyHint": "Add content you like to favorites"
+  },
+  "myList": {
+    "title": "My List",
+    "empty": "Your list is empty",
+    "emptyHint": "Add content you want to watch to your list"
+  },
+  "player": {
+    "loading": "Loading...",
+    "error": "Playback error",
+    "streamUnavailable": "Stream unavailable",
+    "retrying": "Retrying...",
+    "retry": "Retry",
+    "live": "LIVE",
+    "skipBack": "Skip back 10s",
+    "skipForward": "Skip forward 10s",
+    "play": "Play",
+    "pause": "Pause",
+    "mute": "Mute",
+    "unmute": "Unmute",
+    "fullscreen": "Fullscreen",
+    "exitFullscreen": "Exit Fullscreen",
+    "quality": "Quality",
+    "audioTrack": "Audio",
+    "subtitles": "Subtitles"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": {
+      "title": "Language",
+      "description": "Select application language",
+      "turkish": "Türkçe",
+      "english": "English"
+    },
+    "player": {
+      "title": "Player",
+      "autoplay": "Autoplay",
+      "autoplayDescription": "Automatically start videos",
+      "quality": "Default Quality",
+      "qualityAuto": "Auto",
+      "quality1080p": "1080p",
+      "quality720p": "720p",
+      "quality480p": "480p"
+    },
+    "appearance": {
+      "title": "Appearance",
+      "compactMode": "Compact Mode",
+      "compactModeDescription": "Use a more compact layout",
+      "theme": "Theme",
+      "themeDark": "Dark",
+      "themeLight": "Light"
+    },
+    "data": {
+      "title": "Data",
+      "clearCache": "Clear Cache",
+      "clearCacheDescription": "Clear temporary data",
+      "clearFavorites": "Clear Favorites",
+      "clearList": "Clear My List"
+    },
+    "about": {
+      "title": "About",
+      "version": "Version",
+      "developer": "Developer"
+    }
+  },
+  "content": {
+    "play": "Play",
+    "addToList": "Add to List",
+    "removeFromList": "Remove from List",
+    "addToFavorites": "Add to Favorites",
+    "removeFromFavorites": "Remove from Favorites",
+    "rating": "Rating",
+    "year": "Year",
+    "genre": "Genre",
+    "director": "Director",
+    "cast": "Cast",
+    "plot": "Plot",
+    "duration": "Duration",
+    "releaseDate": "Release Date"
+  }
+}

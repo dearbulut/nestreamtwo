@@ -1,6 +1,7 @@
 // Sidebar Navigation Component - Matching NeoStream Desktop Design
 
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useTVNavigation } from '../../hooks/useTVNavigation';
 import './Sidebar.css';
 
@@ -12,22 +13,23 @@ interface SidebarProps {
 
 interface MenuItem {
     id: string;
-    label: string;
+    labelKey: string;
     emoji: string;
     gradient: string;
 }
 
 const menuItems: MenuItem[] = [
-    { id: 'home', label: 'Início', emoji: '🏠', gradient: 'linear-gradient(135deg, #f59e0b, #d97706)' },
-    { id: 'live', label: 'TV ao Vivo', emoji: '📺', gradient: 'linear-gradient(135deg, #a855f7, #7c3aed)' },
-    { id: 'movies', label: 'Filmes', emoji: '🎬', gradient: 'linear-gradient(135deg, #3b82f6, #1d4ed8)' },
-    { id: 'series', label: 'Séries', emoji: '📺', gradient: 'linear-gradient(135deg, #ec4899, #db2777)' },
-    { id: 'mylist', label: 'Minha Lista', emoji: '📑', gradient: 'linear-gradient(135deg, #14b8a6, #0891b2)' },
-    { id: 'favorites', label: 'Favoritos', emoji: '❤️', gradient: 'linear-gradient(135deg, #ef4444, #dc2626)' },
-    { id: 'settings', label: 'Configurações', emoji: '⚙️', gradient: 'linear-gradient(135deg, #6b7280, #4b5563)' },
+    { id: 'home', labelKey: 'nav.home', emoji: '🏠', gradient: 'linear-gradient(135deg, #f59e0b, #d97706)' },
+    { id: 'live', labelKey: 'nav.liveTV', emoji: '📺', gradient: 'linear-gradient(135deg, #a855f7, #7c3aed)' },
+    { id: 'movies', labelKey: 'nav.movies', emoji: '🎬', gradient: 'linear-gradient(135deg, #3b82f6, #1d4ed8)' },
+    { id: 'series', labelKey: 'nav.series', emoji: '📺', gradient: 'linear-gradient(135deg, #ec4899, #db2777)' },
+    { id: 'mylist', labelKey: 'nav.myList', emoji: '📑', gradient: 'linear-gradient(135deg, #14b8a6, #0891b2)' },
+    { id: 'favorites', labelKey: 'nav.favorites', emoji: '❤️', gradient: 'linear-gradient(135deg, #ef4444, #dc2626)' },
+    { id: 'settings', labelKey: 'nav.settings', emoji: '⚙️', gradient: 'linear-gradient(135deg, #6b7280, #4b5563)' },
 ];
 
 export function Sidebar({ activeItem, onItemSelect, onLogout }: SidebarProps) {
+    const { t } = useTranslation();
     const [focusedIndex, setFocusedIndex] = useState(
         menuItems.findIndex(item => item.id === activeItem)
     );
@@ -130,7 +132,7 @@ export function Sidebar({ activeItem, onItemSelect, onLogout }: SidebarProps) {
                                 {/* Tooltip */}
                                 <div className={`tooltip ${isFocused || isHovered ? 'visible' : ''}`}>
                                     <span className="tooltip-emoji">{item.emoji}</span>
-                                    <span className="tooltip-label">{item.label}</span>
+                                    <span className="tooltip-label">{t(item.labelKey)}</span>
                                 </div>
                             </button>
                         );
@@ -163,7 +165,7 @@ export function Sidebar({ activeItem, onItemSelect, onLogout }: SidebarProps) {
                         {/* Profile Tooltip */}
                         <div className={`tooltip ${focusedIndex === menuItems.length || hoveredItem === 'profile' ? 'visible' : ''}`}>
                             <span className="tooltip-emoji">👤</span>
-                            <span className="tooltip-label">Perfil</span>
+                            <span className="tooltip-label">{t('nav.profile')}</span>
                         </div>
                     </button>
 
@@ -184,7 +186,7 @@ export function Sidebar({ activeItem, onItemSelect, onLogout }: SidebarProps) {
                         {/* Logout Tooltip */}
                         <div className={`tooltip danger ${focusedIndex === menuItems.length + 1 || hoveredItem === 'logout' ? 'visible' : ''}`}>
                             <span className="tooltip-emoji">🚪</span>
-                            <span className="tooltip-label">Sair</span>
+                            <span className="tooltip-label">{t('nav.logout')}</span>
                         </div>
                     </button>
                 </div>

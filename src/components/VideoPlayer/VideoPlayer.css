@@ -179,23 +179,49 @@
 }
 
 .video-player-error p {
-    margin: 0 0 16px 0;
+    margin: 0 0 20px 0;
     font-size: 1.1rem;
 }
 
-.video-player-error button {
-    background: linear-gradient(135deg, #ef4444, #dc2626);
+.error-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.video-player-error .retry-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
     border: none;
-    padding: 10px 24px;
+    padding: 12px 24px;
     border-radius: 8px;
     color: white;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.video-player-error button:hover {
+.video-player-error .retry-btn:hover {
     transform: scale(1.05);
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
+}
+
+.video-player-error .close-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 12px 24px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.video-player-error .close-btn:hover {
+    background: rgba(239, 68, 68, 0.8);
+    border-color: rgba(239, 68, 68, 0.8);
 }
 
 /* Controls */

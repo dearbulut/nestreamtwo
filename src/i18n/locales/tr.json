@@ -1,0 +1,163 @@
+{
+  "common": {
+    "loading": "Yükleniyor...",
+    "error": "Hata",
+    "retry": "Tekrar Dene",
+    "close": "Kapat",
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "back": "Geri",
+    "search": "Ara",
+    "all": "Tümü",
+    "noResults": "Sonuç bulunamadı",
+    "tryAgain": "Başka bir terim deneyin"
+  },
+  "nav": {
+    "home": "Ana Sayfa",
+    "liveTV": "Canlı TV",
+    "movies": "Filmler",
+    "series": "Diziler",
+    "myList": "Listem",
+    "favorites": "Favoriler",
+    "settings": "Ayarlar",
+    "profile": "Profil",
+    "logout": "Çıkış"
+  },
+  "login": {
+    "title": "NeoStream'e Hoş Geldiniz",
+    "subtitle": "IPTV hesabınızla giriş yapın",
+    "serverUrl": "Sunucu URL'si",
+    "serverUrlPlaceholder": "http://example.com:8080",
+    "username": "Kullanıcı Adı",
+    "usernamePlaceholder": "Kullanıcı adınızı girin",
+    "password": "Şifre",
+    "passwordPlaceholder": "Şifrenizi girin",
+    "loginButton": "Giriş Yap",
+    "loggingIn": "Giriş yapılıyor...",
+    "invalidCredentials": "Kullanıcı adı veya şifre hatalı",
+    "invalidResponse": "Sunucudan geçersiz yanıt",
+    "connectionError": "Bağlantı hatası"
+  },
+  "home": {
+    "welcome": "Hoş Geldiniz",
+    "continueWatching": "İzlemeye Devam Et",
+    "recentlyAdded": "Son Eklenenler",
+    "popular": "Popüler",
+    "recommended": "Önerilen"
+  },
+  "liveTV": {
+    "title": "Canlı TV",
+    "searchPlaceholder": "Kanal ara...",
+    "loadingChannels": "Kanallar yükleniyor",
+    "errorLoading": "Kanallar yüklenirken hata oluştu",
+    "noChannels": "Kanal bulunamadı",
+    "live": "CANLI",
+    "watch": "İzle",
+    "info": "Bilgi",
+    "hints": {
+      "navigate": "Gezin",
+      "select": "Seç",
+      "back": "Geri"
+    }
+  },
+  "movies": {
+    "title": "Filmler",
+    "searchPlaceholder": "Film ara...",
+    "loadingMovies": "Filmler yükleniyor",
+    "errorLoading": "Filmler yüklenirken hata oluştu",
+    "noMovies": "Film bulunamadı"
+  },
+  "series": {
+    "title": "Diziler",
+    "searchPlaceholder": "Dizi ara...",
+    "loadingSeries": "Diziler yükleniyor",
+    "errorLoading": "Diziler yüklenirken hata oluştu",
+    "noSeries": "Dizi bulunamadı",
+    "season": "Sezon",
+    "episode": "Bölüm",
+    "episodes": "Bölümler"
+  },
+  "favorites": {
+    "title": "Favoriler",
+    "empty": "Henüz favori eklemediniz",
+    "emptyHint": "Beğendiğiniz içerikleri favorilere ekleyin"
+  },
+  "myList": {
+    "title": "Listem",
+    "empty": "Listeniz boş",
+    "emptyHint": "İzlemek istediğiniz içerikleri listenize ekleyin"
+  },
+  "player": {
+    "loading": "Yükleniyor...",
+    "error": "Oynatma hatası",
+    "streamUnavailable": "Yayın kullanılamıyor",
+    "retrying": "Yeniden deneniyor...",
+    "retry": "Tekrar Dene",
+    "live": "CANLI",
+    "skipBack": "10 saniye geri",
+    "skipForward": "10 saniye ileri",
+    "play": "Oynat",
+    "pause": "Duraklat",
+    "mute": "Sessiz",
+    "unmute": "Sesi Aç",
+    "fullscreen": "Tam Ekran",
+    "exitFullscreen": "Tam Ekrandan Çık",
+    "quality": "Kalite",
+    "audioTrack": "Ses",
+    "subtitles": "Altyazı"
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "language": {
+      "title": "Dil",
+      "description": "Uygulama dilini seçin",
+      "turkish": "Türkçe",
+      "english": "English"
+    },
+    "player": {
+      "title": "Oynatıcı",
+      "autoplay": "Otomatik Oynat",
+      "autoplayDescription": "Videoları otomatik başlat",
+      "quality": "Varsayılan Kalite",
+      "qualityAuto": "Otomatik",
+      "quality1080p": "1080p",
+      "quality720p": "720p",
+      "quality480p": "480p"
+    },
+    "appearance": {
+      "title": "Görünüm",
+      "compactMode": "Kompakt Mod",
+      "compactModeDescription": "Daha sıkışık düzen kullan",
+      "theme": "Tema",
+      "themeDark": "Koyu",
+      "themeLight": "Açık"
+    },
+    "data": {
+      "title": "Veri",
+      "clearCache": "Önbelleği Temizle",
+      "clearCacheDescription": "Geçici verileri temizle",
+      "clearFavorites": "Favorileri Temizle",
+      "clearList": "Listemi Temizle"
+    },
+    "about": {
+      "title": "Hakkında",
+      "version": "Sürüm",
+      "developer": "Geliştirici"
+    }
+  },
+  "content": {
+    "play": "Oynat",
+    "addToList": "Listeme Ekle",
+    "removeFromList": "Listemden Çıkar",
+    "addToFavorites": "Favorilere Ekle",
+    "removeFromFavorites": "Favorilerden Çıkar",
+    "rating": "Puan",
+    "year": "Yıl",
+    "genre": "Tür",
+    "director": "Yönetmen",
+    "cast": "Oyuncular",
+    "plot": "Özet",
+    "duration": "Süre",
+    "releaseDate": "Yayın Tarihi"
+  }
+}
