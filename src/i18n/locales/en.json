@@ -43,7 +43,12 @@
     "continueWatching": "Continue Watching",
     "recentlyAdded": "Recently Added",
     "popular": "Popular",
-    "recommended": "Recommended"
+    "recommended": "Recommended For You",
+    "whatToWatch": "What would you like to watch today?",
+    "channels": "Channels",
+    "recentSeries": "Recent Series",
+    "recentMovies": "Recent Movies",
+    "quickAccess": "Quick Access"
   },
   "liveTV": {
     "title": "Live TV",
@@ -159,5 +164,19 @@
     "plot": "Plot",
     "duration": "Duration",
     "releaseDate": "Release Date"
+  },
+  "contentDetail": {
+    "episode": "Episode",
+    "noDescription": "No description available.",
+    "series": "Series",
+    "movie": "Movie",
+    "seasons": "Seasons",
+    "loadingEpisodes": "Loading episodes...",
+    "watch": "Watch",
+    "watchMovie": "Watch Movie",
+    "saved": "Saved",
+    "watchLater": "Watch Later",
+    "addToFavorites": "Add to Favorites",
+    "removeFromFavorites": "Remove from Favorites"
   }
 }

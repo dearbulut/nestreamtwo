@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { api } from '../services/api';
 import { storage } from '../services/storage';
+import { changeLanguage } from '../i18n';
 import { useTVNavigation } from '../hooks/useTVNavigation';
 import './Login.css';
 
@@ -12,13 +13,14 @@ interface LoginProps {
 }
 
 export function Login({ onLoginSuccess }: LoginProps) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [url, setUrl] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [focusedField, setFocusedField] = useState(0);
+    const [showInfoPopup, setShowInfoPopup] = useState(true);
 
     const inputs = useRef<(HTMLInputElement | HTMLButtonElement | null)[]>([]);
 
@@ -31,6 +33,11 @@ export function Login({ onLoginSuccess }: LoginProps) {
             setPassword(saved.password);
         }
     }, []);
+
+    // Handle language change
+    const handleLanguageChange = (lang: 'tr' | 'en') => {
+        changeLanguage(lang);
+    };
 
     const handleLogin = async () => {
         if (!url || !username || !password) {
@@ -75,12 +82,61 @@ export function Login({ onLoginSuccess }: LoginProps) {
 
     return (
         <div className="login-container">
+            {/* Info Popup */}
+            {showInfoPopup && (
+                <div className="info-popup-overlay">
+                    <div className="info-popup">
+                        <div className="info-popup-icon">
+                            <svg viewBox="0 0 24 24" fill="none" width="48" height="48">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
+                                <path d="M12 8V12M12 16H12.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                            </svg>
+                        </div>
+                        <div className="info-popup-content">
+                            <p className="info-popup-text">
+                                This project was developed by <strong>Soft Tech</strong>.
+                            </p>
+                            <p className="info-popup-contact">
+                                Contact us on Telegram:
+                            </p>
+                            <a href="https://t.me/techsoftwareone" target="_blank" rel="noopener noreferrer" className="info-popup-telegram">
+                                <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+                                </svg>
+                                <span>@techsoftwareone</span>
+                            </a>
+                        </div>
+                        <button className="info-popup-btn" onClick={() => setShowInfoPopup(false)}>
+                            OK
+                        </button>
+                    </div>
+                </div>
+            )}
+
             {/* Animated background */}
             <div className="login-bg">
                 <div className="login-orb login-orb-1" />
                 <div className="login-orb login-orb-2" />
                 <div className="login-orb login-orb-3" />
                 <div className="login-grid-overlay" />
+            </div>
+
+            {/* Language Selector */}
+            <div className="login-language-selector">
+                <button
+                    className={`lang-btn ${i18n.language === 'tr' ? 'active' : ''}`}
+                    onClick={() => handleLanguageChange('tr')}
+                    title="Türkçe"
+                >
+                    🇹🇷
+                </button>
+                <button
+                    className={`lang-btn ${i18n.language === 'en' ? 'active' : ''}`}
+                    onClick={() => handleLanguageChange('en')}
+                    title="English"
+                >
+                    🇬🇧
+                </button>
             </div>
 
             <div className="login-content animate-scale-in">

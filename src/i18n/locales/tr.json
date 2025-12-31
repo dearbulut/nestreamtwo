@@ -43,7 +43,12 @@
     "continueWatching": "İzlemeye Devam Et",
     "recentlyAdded": "Son Eklenenler",
     "popular": "Popüler",
-    "recommended": "Önerilen"
+    "recommended": "Sizin İçin Önerilen",
+    "whatToWatch": "Bugün ne izlemek istersiniz?",
+    "channels": "Kanallar",
+    "recentSeries": "Son Eklenen Diziler",
+    "recentMovies": "Son Eklenen Filmler",
+    "quickAccess": "Hızlı Erişim"
   },
   "liveTV": {
     "title": "Canlı TV",
@@ -159,5 +164,19 @@
     "plot": "Özet",
     "duration": "Süre",
     "releaseDate": "Yayın Tarihi"
+  },
+  "contentDetail": {
+    "episode": "Bölüm",
+    "noDescription": "Açıklama mevcut değil.",
+    "series": "Dizi",
+    "movie": "Film",
+    "seasons": "Sezon",
+    "loadingEpisodes": "Bölümler yükleniyor...",
+    "watch": "İzle",
+    "watchMovie": "Filmi İzle",
+    "saved": "Kaydedildi",
+    "watchLater": "Sonra İzle",
+    "addToFavorites": "Favorilere Ekle",
+    "removeFromFavorites": "Favorilerden Kaldır"
   }
 }

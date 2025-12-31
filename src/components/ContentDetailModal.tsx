@@ -1,6 +1,7 @@
 // ContentDetailModal.tsx - Premium modal matching original NeoStream app
 
 import { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { api } from '../services/api';
 import { searchMovieByName, searchSeriesByName, getImageUrl, formatGenres, type TMDBMovieDetails, type TMDBSeriesDetails } from '../services/tmdb';
 import type { SeriesInfo } from '../types';
@@ -87,6 +88,7 @@ export function ContentDetailModal({
     contentData,
     onPlay
 }: ContentDetailModalProps) {
+    const { t } = useTranslation();
     const [seriesInfo, setSeriesInfo] = useState<SeriesInfo | null>(null);
     const [selectedSeason, setSelectedSeason] = useState(1);
     const [selectedEpisode, setSelectedEpisode] = useState(1);
@@ -192,13 +194,13 @@ export function ContentDetailModal({
         ];
         const isValidTitle = cleanTitle.length > 0 && !genericPatterns.some(p => p.test(cleanTitle));
 
-        return isValidTitle ? cleanTitle : `Episódio ${epNum}`;
+        return isValidTitle ? cleanTitle : `${t('contentDetail.episode')} ${epNum}`;
     };
 
     if (!isOpen) return null;
 
     // Use TMDB data if available, fallback to IPTV data
-    const overview = (tmdbData as any)?.overview || contentData.plot || 'Sem descrição disponível.';
+    const overview = (tmdbData as any)?.overview || contentData.plot || t('contentDetail.noDescription');
     const rating = tmdbData?.vote_average ? tmdbData.vote_average.toFixed(1) : contentData.rating;
     const genres = tmdbData?.genres ? formatGenres(tmdbData.genres) : contentData.genre;
     const backdropUrl = tmdbData?.backdrop_path ? getImageUrl(tmdbData.backdrop_path, 'w1280') : null;
@@ -255,11 +257,11 @@ export function ContentDetailModal({
                             </span>
                         )}
                         <span className={`meta-badge ${contentType === 'series' ? 'type-badge-series' : 'type-badge-movie'}`}>
-                            {contentType === 'series' ? '📺 Série' : '🎬 Filme'}
+                            {contentType === 'series' ? `📺 ${t('contentDetail.series')}` : `🎬 ${t('contentDetail.movie')}`}
                         </span>
                         {contentType === 'series' && seasons.length > 0 && (
                             <span className="meta-badge season-badge">
-                                {seasons.length} {seasons.length > 1 ? 'Temporadas' : 'Temporada'}
+                                {seasons.length} {t('contentDetail.seasons')}
                             </span>
                         )}
                     </div>
@@ -323,7 +325,7 @@ export function ContentDetailModal({
                     {contentType === 'series' && loading && (
                         <div className="modal-loading">
                             <div className="loading-spinner" />
-                            Carregando episódios...
+                            {t('contentDetail.loadingEpisodes')}
                         </div>
                     )}
 
@@ -341,8 +343,8 @@ export function ContentDetailModal({
                         >
                             <span className="icon">▶</span>
                             {contentType === 'series'
-                                ? `Assistir T${selectedSeason} E${selectedEpisode}`
-                                : 'Assistir Filme'
+                                ? `${t('contentDetail.watch')} S${selectedSeason} E${selectedEpisode}`
+                                : t('contentDetail.watchMovie')
                             }
                         </button>
 
@@ -361,7 +363,7 @@ export function ContentDetailModal({
                             }}
                         >
                             {watchLaterService.has(contentId, contentType) ? '✓' : '+'}
-                            {watchLaterService.has(contentId, contentType) ? 'Salvo' : 'Assistir Depois'}
+                            {watchLaterService.has(contentId, contentType) ? t('contentDetail.saved') : t('contentDetail.watchLater')}
                         </button>
 
                         {/* Favorite Button */}
@@ -371,7 +373,7 @@ export function ContentDetailModal({
                                 favoritesService.toggle(contentId, contentType);
                                 setRefresh(r => r + 1);
                             }}
-                            title={favoritesService.has(contentId, contentType) ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos'}
+                            title={favoritesService.has(contentId, contentType) ? t('contentDetail.removeFromFavorites') : t('contentDetail.addToFavorites')}
                         >
                             {favoritesService.has(contentId, contentType) ? '❤️' : '🤍'}
                         </button>

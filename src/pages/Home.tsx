@@ -1,6 +1,7 @@
 // Home Page - Matching NeoStream Desktop
 
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { api } from '../services/api';
 import type { VODStream, Series } from '../types';
 import { useTVNavigation } from '../hooks/useTVNavigation';
@@ -17,6 +18,7 @@ interface ContentCounts {
 }
 
 export function Home({ onNavigate }: HomeProps) {
+    const { t, i18n } = useTranslation();
     const [loading, setLoading] = useState(true);
     const [counts, setCounts] = useState<ContentCounts>({ live: 0, vod: 0, series: 0 });
     const [recentMovies, setRecentMovies] = useState<VODStream[]>([]);
@@ -76,25 +78,33 @@ export function Home({ onNavigate }: HomeProps) {
         fetchData();
     }, []);
 
-    // Time formatting
+    // Time formatting - use current language
     const formatTime = (date: Date) => {
-        return date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        const locale = i18n.language === 'tr' ? 'tr-TR' : 'en-US';
+        return date.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
     };
 
     const formatDate = (date: Date) => {
-        return date.toLocaleDateString('pt-BR', {
+        const locale = i18n.language === 'tr' ? 'tr-TR' : 'en-US';
+        return date.toLocaleDateString(locale, {
             weekday: 'long',
             day: 'numeric',
             month: 'long'
         });
     };
 
-    // Greeting based on time of day (as per original app)
+    // Greeting based on time of day
     const getGreeting = () => {
         const hour = currentTime.getHours();
-        if (hour < 12) return 'Bom dia';
-        if (hour < 18) return 'Boa tarde';
-        return 'Boa noite';
+        if (i18n.language === 'tr') {
+            if (hour < 12) return 'Günaydın';
+            if (hour < 18) return 'İyi günler';
+            return 'İyi akşamlar';
+        } else {
+            if (hour < 12) return 'Good morning';
+            if (hour < 18) return 'Good afternoon';
+            return 'Good evening';
+        }
     };
 
     // TV Navigation - Updated sections
@@ -172,7 +182,7 @@ export function Home({ onNavigate }: HomeProps) {
                     <h1 className="home-greeting">
                         {getGreeting()}! <span className="waving-hand">👋</span>
                     </h1>
-                    <p className="home-subtitle">O que você quer assistir hoje?</p>
+                    <p className="home-subtitle">{t('home.whatToWatch')}</p>
                 </div>
                 <div className="home-clock">{formatTime(currentTime)}</div>
             </header>
@@ -185,7 +195,7 @@ export function Home({ onNavigate }: HomeProps) {
                 >
                     <div className="stat-icon">📺</div>
                     <div className="stat-value">{loading ? '...' : counts.live.toLocaleString()}</div>
-                    <div className="stat-label">Canais</div>
+                    <div className="stat-label">{t('home.channels')}</div>
                 </button>
 
                 <button
@@ -194,7 +204,7 @@ export function Home({ onNavigate }: HomeProps) {
                 >
                     <div className="stat-icon">🎬</div>
                     <div className="stat-value">{loading ? '...' : counts.vod.toLocaleString()}</div>
-                    <div className="stat-label">Filmes</div>
+                    <div className="stat-label">{t('nav.movies')}</div>
                 </button>
 
                 <button
@@ -203,7 +213,7 @@ export function Home({ onNavigate }: HomeProps) {
                 >
                     <div className="stat-icon">📺</div>
                     <div className="stat-value">{loading ? '...' : counts.series.toLocaleString()}</div>
-                    <div className="stat-label">Séries</div>
+                    <div className="stat-label">{t('nav.series')}</div>
                 </button>
             </section>
 
@@ -214,7 +224,7 @@ export function Home({ onNavigate }: HomeProps) {
 
                 {/* Recommendations */}
                 <div className="content-section">
-                    <h2 className="section-title">💡 Recomendados Para Você</h2>
+                    <h2 className="section-title">💡 {t('home.recommended')}</h2>
                     <div className="content-row">
                         {recommendations.map((item, index) => (
                             <button
@@ -237,7 +247,7 @@ export function Home({ onNavigate }: HomeProps) {
 
                 {/* Recent Series */}
                 <div className="content-section">
-                    <h2 className="section-title">🆕 Séries Recentes</h2>
+                    <h2 className="section-title">🆕 {t('home.recentSeries')}</h2>
                     <div className="content-row">
                         {recentSeries.map((series, index) => (
                             <button
@@ -260,7 +270,7 @@ export function Home({ onNavigate }: HomeProps) {
 
                 {/* Recent Movies */}
                 <div className="content-section">
-                    <h2 className="section-title">🎬 Filmes Recentes</h2>
+                    <h2 className="section-title">🎬 {t('home.recentMovies')}</h2>
                     <div className="content-row">
                         {recentMovies.map((movie, index) => (
                             <button
@@ -284,42 +294,42 @@ export function Home({ onNavigate }: HomeProps) {
 
             {/* Quick Access */}
             <section className="home-quick-access">
-                <h2 className="section-title">⚡ Acesso Rápido</h2>
+                <h2 className="section-title">⚡ {t('home.quickAccess')}</h2>
                 <div className="quick-grid">
                     <button
                         className={`quick-item ${focusedSection === 4 && focusedItem === 0 ? 'tv-focused' : ''}`}
                         onClick={() => onNavigate?.('live')}
                     >
                         <span className="quick-icon">🔴</span>
-                        <span className="quick-label">TV ao Vivo</span>
+                        <span className="quick-label">{t('nav.liveTV')}</span>
                     </button>
                     <button
                         className={`quick-item ${focusedSection === 4 && focusedItem === 1 ? 'tv-focused' : ''}`}
                         onClick={() => onNavigate?.('movies')}
                     >
                         <span className="quick-icon">🎥</span>
-                        <span className="quick-label">Filmes</span>
+                        <span className="quick-label">{t('nav.movies')}</span>
                     </button>
                     <button
                         className={`quick-item ${focusedSection === 4 && focusedItem === 2 ? 'tv-focused' : ''}`}
                         onClick={() => onNavigate?.('series')}
                     >
                         <span className="quick-icon">📺</span>
-                        <span className="quick-label">Séries</span>
+                        <span className="quick-label">{t('nav.series')}</span>
                     </button>
                     <button
                         className={`quick-item ${focusedSection === 4 && focusedItem === 3 ? 'tv-focused' : ''}`}
                         onClick={() => onNavigate?.('favorites')}
                     >
                         <span className="quick-icon">❤️</span>
-                        <span className="quick-label">Favoritos</span>
+                        <span className="quick-label">{t('nav.favorites')}</span>
                     </button>
                     <button
                         className={`quick-item ${focusedSection === 4 && focusedItem === 4 ? 'tv-focused' : ''}`}
                         onClick={() => onNavigate?.('settings')}
                     >
                         <span className="quick-icon">⚙️</span>
-                        <span className="quick-label">Configurações</span>
+                        <span className="quick-label">{t('nav.settings')}</span>
                     </button>
                 </div>
             </section>
