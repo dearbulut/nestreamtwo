@@ -1,13 +1,13 @@
 // Settings Page - Language, Player, and UI Preferences
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { storage, type Settings as SettingsType } from '../services/storage';
 import { changeLanguage } from '../i18n';
 import './Settings.css';
 
 export function Settings() {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const [settings, setSettings] = useState<SettingsType>(storage.getSettings());
     const [saved, setSaved] = useState(false);
 

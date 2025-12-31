@@ -1,7 +1,6 @@
 // Main App Component - NeoStream TV
 
 import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { api } from './services/api';
 import { storage } from './services/storage';
 import { Login } from './pages/Login';
@@ -18,7 +17,6 @@ import './index.css';
 type Page = 'home' | 'live' | 'movies' | 'series' | 'mylist' | 'favorites' | 'settings';
 
 function App() {
-  const { t } = useTranslation();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState<Page>('home');
